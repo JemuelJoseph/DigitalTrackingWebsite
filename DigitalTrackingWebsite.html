@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Bus Tracking App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+        }
+
+        header {
+            background-color: #0078d7;
+            color: white;
+            text-align: center;
+            padding: 1rem;
+        }
+
+        nav {
+            display: flex;
+            justify-content: center;
+            background-color: #005bb5;
+            padding: 0.5rem 0;
+        }
+
+        nav a {
+            color: white;
+            margin: 0 1rem;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        nav a:hover {
+            text-decoration: underline;
+        }
+
+        main {
+            padding: 2rem;
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .map {
+            height: 400px;
+            width: 100%;
+            margin-bottom: 1rem;
+        }
+
+        footer {
+            text-align: center;
+            padding: 1rem;
+            background-color: #0078d7;
+            color: white;
+            margin-top: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            main {
+                padding: 1rem;
+            }
+
+            nav {
+                flex-direction: column;
+                padding: 1rem;
+            }
+
+            nav a {
+                margin: 0.5rem 0;
+            }
+        }
+    </style>
+    <!-- Include the Leaflet.js CSS and JS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+</head>
+<body>
+    <header>
+        <h1>Antiguas Bus Tracking Website</h1>
+        <p>Real-Time Bus Tracking at Your Fingertips</p>
+    </header>
+
+    <nav>
+        <a href="#map">Map</a>
+        <a href="#routes">Routes</a>
+        <a href="#contact">Contact</a>
+    </nav>
+
+    <main>
+        <section id="map">
+            <h2>Live Map</h2>
+            <div id="map" class="map"></div>
+            <p>Track your bus in real-time and plan your commute efficiently.</p>
+        </section>
+
+        <section id="routes">
+            <h2>Available Routes</h2>
+            <ul>
+                <li>Route 1: UWI Campus to Downtown</li>
+                <li>Route 2: Downtown to Airport</li>
+                <li>Route 3: East Antigua to West Antigua</li>
+            </ul>
+        </section>
+
+        <section id="contact">
+            <h2>Contact Us</h2>
+            <p>Email: help@antiguabustracker.com</p>
+            <p>Phone: +1 268-123-4567</p>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Antigua Bus Tracker. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Initialize the map using Leaflet
+        const map = L.map('map').setView([17.12096, -61.84329], 12); // Antigua's coordinates
+
+        // Add the OpenStreetMap tile layer
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        // Add a marker for Antigua
+        const marker = L.marker([17.12096, -61.84329]).addTo(map);
+        marker.bindPopup("<b>Antigua Bus Tracker</b>").openPopup();
+
+        // Route 1: UWI Campus to Downtown
+        const route1 = [
+            [17.119250834938924, -61.881601235585755], // UWI Campus
+            [17.118044501360483, -61.86872699936864], // Stop 1
+            [17.11382661803674, -61.857645675393194], // Stop 2
+            [17.116790220206422, -61.84421760787184], // Downtown
+        ];
+
+        // Route 2: Downtown to Airport
+        const route2 = [
+            [17.116790220206422, -61.84421760787184], // Downtown
+            [17.123103791309813, -61.83955325774558], // Stop 1
+            [17.125898997815387, -61.81458045831949], // Stop 2
+            [17.14158465433874, -61.79163370283722], // Airport
+        ];
+
+        // Route 3: East Antigua to West Antigua
+        const route3 = [
+            [17.085221376607613, -61.73448760020857], // East Antigua
+            [17.08139264580807, -61.80407707112016], // Stop 1
+            [17.106625910086557, -61.842216419670905], // Stop 2
+            [17.06503269635258, -61.878413737068705], // West Antigua
+        ];
+
+        // Function to add markers for each route
+        function addRoute(route, routeName, color) {
+            const polyline = L.polyline(route, { color: color }).addTo(map);
+            route.forEach(coord => {
+                L.marker(coord).addTo(map).bindPopup(`<b>${routeName}</b>`);
+            });
+        }
+
+        // Add the routes to the map with different colors
+        addRoute(route1, "Route 1: UWI Campus to Downtown", "blue"); // Blue for Route 1
+        addRoute(route2, "Route 2: Downtown to Airport", "red"); // Red for Route 2
+        addRoute(route3, "Route 3: East Antigua to West Antigua", "green"); // Green for Route 3
+    </script>
+</body>
+</html>
+
+
+
+
